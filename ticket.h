@@ -30,11 +30,6 @@ public:
     // Function
     void displayTicketInfo() const;
 
-    // Static function to get the next available ticket number
-    static int getNextTicketNumber();
-
-    // Static function to increment the next ticket number
-    static void incrementNextTicketNumber();
 };
 
 #endif // TICKET_H

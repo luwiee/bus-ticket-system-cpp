@@ -8,6 +8,7 @@ int main()
 {
     std::vector<Bus> buses;
     std::vector<Passenger> passengers;
+    std::vector<Ticket> allTickets;
 
     while (true)
     {
@@ -19,7 +20,8 @@ int main()
         std::cout << "5. View List of Passengers" << std::endl;
         std::cout << "6. View Tickets of a Passenger" << std::endl;
         std::cout << "7. Book a Ticket for a Registered Passenger" << std::endl;
-        std::cout << "8. Exit" << std::endl;
+        std::cout << "8. Register a new Passenger" << std::endl;
+        std::cout << "9. Exit" << std::endl;
         std::cout << "=========================================" << std::endl;
 
         int choice;
@@ -189,14 +191,14 @@ int main()
             std::cin >> targetSeatNumber;
 
             bool foundPassenger = false;
-            for (Passenger &passenger : passengers)
+            for (Passenger& passenger : passengers)
             {
                 if (passenger.getPassengerNumber() == targetPassengerNumber)
                 {
                     foundPassenger = true;
 
                     bool foundBus = false;
-                    for (Bus &bus : buses)
+                    for (Bus& bus : buses)
                     {
                         if (bus.getBusNumber() == targetBusNumber)
                         {
@@ -206,8 +208,18 @@ int main()
                             {
                                 float ticketPrice = bus.getTicketPrice();
 
-                                // Generate the ticket number for the entire bus system
-                                int ticketNumber = Ticket::getNextTicketNumber();
+                                // Find the highest ticket number from all tickets
+                                int highestTicketNumber = 0;
+                                for (const Ticket& ticket : allTickets)
+                                {
+                                    if (ticket.getTicketNumber() > highestTicketNumber)
+                                    {
+                                        highestTicketNumber = ticket.getTicketNumber();
+                                    }
+                                }
+
+                                // Generate the next ticket number by incrementing the highest ticket number
+                                int ticketNumber = highestTicketNumber + 1;
 
                                 // Create a new Ticket object and add it to the passenger's tickets
                                 Ticket newTicket(ticketNumber, targetPassengerNumber, passenger.getName(), targetBusNumber, targetSeatNumber, ticketPrice);
@@ -216,8 +228,8 @@ int main()
                                 // Book the seat on the bus
                                 bus.bookSeat(targetSeatNumber);
 
-                                // Increment the ticket number for the entire bus system
-                                Ticket::incrementNextTicketNumber();
+                                // Add the new ticket to the list of all tickets
+                                allTickets.push_back(newTicket);
 
                                 std::cout << "Ticket booked successfully!" << std::endl;
                             }
@@ -246,6 +258,45 @@ int main()
             break;
         }
         case 8:
+        {
+            int passengerNumber;
+            std::string passengerName;
+
+            std::cout << "Enter Passenger Number: ";
+            std::cin >> passengerNumber;
+            std::cout << "Enter Passenger Name: ";
+            std::cin.ignore(); // Clear the newline character from previous input
+            std::getline(std::cin, passengerName);
+
+            // Check if the passenger number is unique
+            bool isUniquePassengerNumber = true;
+            for (const Passenger& passenger : passengers)
+            {
+                if (passenger.getPassengerNumber() == passengerNumber)
+                {
+                    isUniquePassengerNumber = false;
+                    break;
+                }
+            }
+
+            if (isUniquePassengerNumber)
+            {
+                // Create a new Passenger object and add it to the list of passengers
+                Passenger newPassenger(passengerNumber, passengerName);
+                passengers.push_back(newPassenger);
+
+                std::cout << "Passenger added successfully!" << std::endl;
+            }
+            else
+            {
+                std::cout << "Passenger with the same number already exists. Please choose a unique passenger number." << std::endl;
+            }
+
+            break;
+        }
+
+
+        case 9:
         {
             std::cout << "Exiting the program. Goodbye!" << std::endl;
             return 0;
