@@ -182,12 +182,16 @@ int main()
             int targetPassengerNumber;
             std::string targetBusNumber;
             int targetSeatNumber;
+            float distanceLeft;
 
             std::cout << "Enter Passenger Number: ";
             std::cin >> targetPassengerNumber;
             std::cout << "Enter Bus Number: ";
             std::cin >> targetBusNumber;
             std::cout << "Enter Seat Number: ";
+            std::cin >> targetSeatNumber;
+
+            std::cout << "Enter Distance Left to Destination: ";
             std::cin >> targetSeatNumber;
 
             bool foundPassenger = false;

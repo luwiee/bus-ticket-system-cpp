@@ -76,3 +76,4 @@ int Bus::getBookedSeatCount() const {
 const std::vector<Ticket>& Bus::getBookedTickets() const {
     return tickets;
 }
+

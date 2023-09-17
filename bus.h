@@ -33,6 +33,7 @@ public:
     int getAvailableSeatCount() const;
     int getBookedSeatCount() const;
     const std::vector<Ticket>& getBookedTickets() const;
+    
 };
 
 #endif // BUS_H
